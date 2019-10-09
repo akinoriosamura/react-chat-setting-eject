@@ -1,0 +1,53 @@
+import React from 'react';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+    },
+    textField: {
+        flexBasis: 200,
+    },
+}));
+
+function BudgetGet(props) {
+    const classes = useStyles();
+    const [values, setValues] = React.useState({
+        budget: '',
+    });
+
+    const handleChange = prop => event => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+
+    return (
+        <div className={classes.root}>
+            <FormControl className={clsx(classes.textField)}>
+                <FormHelperText id="budget-helper-text">予算</FormHelperText>
+                <Input
+                    id="adornment-budget"
+                    value={props.budget}
+                    defaultValue="1000"
+                    onChange={
+                        e => {
+                            handleChange('budget');
+                            props.handleBudgetChange(e.target.value);
+                        }
+                    }
+                    endAdornment={<InputAdornment position="end">円以内</InputAdornment>}
+                    aria-describedby="budget-helper-text"
+                    inputProps={{
+                        'aria-label': 'budget',
+                    }}
+                />
+            </FormControl>
+        </div>
+    );
+}
+
+export default BudgetGet;
